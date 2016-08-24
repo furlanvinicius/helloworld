@@ -8,5 +8,8 @@ namespace ConsoleApplication1
 {
     class Trem
     {
+        public string propdojaodesalvarnome { get; set; }
+
+
     }
 }
