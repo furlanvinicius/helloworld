@@ -41,7 +41,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     });
 
      $stateProvider.state('tabs.mensagem', {
-        url: '/mensagem',
+        url: '/mensagem/:id',
         views: {
             "tab-mensagens": {
                 templateUrl: 'templates/mensagem.html',

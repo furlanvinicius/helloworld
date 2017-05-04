@@ -2,9 +2,13 @@
 
     <ion-content class="padding">    
 
-        Mensagens    
-
-        <button class="button button-block button-energized" ui-sref="tabs.mensagem">Mensagem</button>
+        <button class="button button-block button-energized" ng-click="add()">Novo grupo</button>
+        
+        <ion-list>
+            <ion-item ng-repeat="msg in mensagens" ng-click="view(msg.$id)">
+                {{msg.name}}
+            </ion-item>
+        </ion-list>
 
     </ion-content>
 

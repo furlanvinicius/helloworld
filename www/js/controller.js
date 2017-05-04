@@ -100,12 +100,54 @@ app.controller('UsuariosCtrl', function($scope, $firebaseArray) {
 
 });
 
-app.controller('MensagensCtrl', function($scope) {
+app.controller('MensagensCtrl', function($scope, $firebaseArray, $ionicPopup, $firebaseAuth) {
+    var ref = firebase.database().ref('mensagens');
+    $scope.mensagens = $firebaseArray(ref);
 
+    $scope.data={
+        name: ""
+    }
+
+    $scope.add = function() {
+        var myPopup = $ionicPopup.show({
+            template: '<input type="text" ng-model="data.name">',
+            title: 'Digite nome do Grupo',
+            subTitle: '~Nome descente, pf!',
+            scope: $scope,
+            buttons: [
+            { text: 'Errei!' },
+            {
+                text: '<b>Só vai!</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                if (!$scope.data.name) {
+                    //don't allow the user to close unless he enters name password
+                    e.preventDefault();
+                } else {
+
+                    return $scope.data.name;
+                }
+                }
+            }
+            ]
+        });
+
+        myPopup.then(function(resp){
+            var firebaseUser = $firebaseAuth().$getAuth();
+            $scope.mensagens.$add({name: resp, admin: firebaseUser.uid});
+        });
+    }
+
+    $scope.view = function(id){
+        $state.go('tab.mensagem', {id: id});
+    }
 });
 
-app.controller('MensagemCtrl', function($scope) {
+app.controller('MensagemCtrl', function($scope, $stateParamse, $firebaseArray) {
 
+    var id = $stateParams.id;
+    var ref = firebase.database().ref('mensagem/'+id);
+    $scope.mensagens = $firebaseArray(ref);
 });
 
 app.controller('ProfileCtrl', function($scope, $state, $firebaseAuth, $firebaseObject, $ionicLoading) {
