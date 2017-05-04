@@ -1,7 +1,19 @@
 <ion-view title="Mensagem">
 
     <ion-content>    
+backand
+        <div class="list">
 
+        <div class="item item-input-inset">
+            <label class="item-input-wrapper">
+            <input type="text" ng-model="data.text">
+            </label>
+            <button class="button button-small" ng-click="send(data)">
+            Vai
+            </button>
+        </div>
+
+        </div>
         <ion-list>
             <ion-item ng-repeat="msg in mensagens">
                 <h2>{{msg.name}} </h2>

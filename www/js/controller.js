@@ -100,7 +100,7 @@ app.controller('UsuariosCtrl', function($scope, $firebaseArray) {
 
 });
 
-app.controller('MensagensCtrl', function($scope, $firebaseArray, $ionicPopup, $firebaseAuth) {
+app.controller('MensagensCtrl', function($scope, $firebaseArray, $ionicPopup, $firebaseAuth, $state) {
     var ref = firebase.database().ref('mensagens');
     $scope.mensagens = $firebaseArray(ref);
 
@@ -139,15 +139,24 @@ app.controller('MensagensCtrl', function($scope, $firebaseArray, $ionicPopup, $f
     }
 
     $scope.view = function(id){
-        $state.go('tab.mensagem', {id: id});
+        $state.go('tabs.mensagem', {id: id});//
     }
 });
 
-app.controller('MensagemCtrl', function($scope, $stateParamse, $firebaseArray) {
+app.controller('MensagemCtrl', function($scope, $stateParams, $firebaseArray, $firebaseAuth) {
 
     var id = $stateParams.id;
     var ref = firebase.database().ref('mensagem/'+id);
     $scope.mensagens = $firebaseArray(ref);
+
+    $scope.data={ };
+    $scope.send = function(data){
+        var firebaseUser = $firebaseAuth().$getAuth();
+        $scope.data.name = firebaseUser.displayName;
+        $scope.data.date = new Date().toISOString();
+
+        $scope.mensagens.$add($scope.data);
+    }
 });
 
 app.controller('ProfileCtrl', function($scope, $state, $firebaseAuth, $firebaseObject, $ionicLoading) {
